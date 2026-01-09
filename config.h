@@ -41,14 +41,14 @@ static struct controller {
 		[SNES_L] = KEY_L,
 
 		[SNES_A] = KEY_A,
-		[SNES_B] = KEY_B,
-		[SNES_X] = KEY_X,
+		[SNES_B] = REL_WHEEL, // scroll down
+		[SNES_X] = REL_WHEEL, // scroll up
 		[SNES_Y] = KEY_Y,
 
-		[SNES_UP]    = KEY_UP,
-		[SNES_DOWN]  = KEY_DOWN,
-		[SNES_LEFT]  = KEY_LEFT,
-		[SNES_RIGHT] = KEY_RIGHT,
+		[SNES_UP]    = REL_Y, // positive
+		[SNES_DOWN]  = REL_Y, // negative
+		[SNES_LEFT]  = REL_X, // negative
+		[SNES_RIGHT] = REL_X, // positive
 
 		[SNES_START]  = KEY_ENTER,
 		[SNES_SELECT] = KEY_ESC
