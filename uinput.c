@@ -33,7 +33,7 @@ int uinput_init(void)
 	if ((fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK)) < 0)
 		return -1;
 
-	if (ioctl(fd, UI_SET_EVBIT, EV_KEY) < 0)
+	if (ioctl(fd, UI_SET_EVBIT, EV_REL) < 0)
 		return -1;
 	if (ioctl(fd, UI_SET_EVBIT, EV_SYN) < 0)
 		return -1;
@@ -71,7 +71,7 @@ int uinput_key_event(int fd, unsigned int btn, int value)
 {
 	struct input_event ev;
 	memset(&ev, 0, sizeof(ev));
-	ev.type = EV_KEY;
+	ev.type = EV_REL;
 	ev.code = btn;
 	ev.value = value;
 	return write(fd, &ev, sizeof(ev));
