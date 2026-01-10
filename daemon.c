@@ -155,9 +155,9 @@ static int init_controllers(void)
 		| (shared_latch ? SNES_SHARED_LATCH : 0);
 }
 
-static void do_event(unsigned long key, int value)
+static void do_event(unsigned int key, unsigned int type, int value)
 {
-	if (uinput_key_event(uinput_fd, key, value) < 0)
+	if (uinput_key_event(uinput_fd, key, type, value) < 0)
 		perror("key_event");
 	if (uinput_syn_event(uinput_fd) < 0)
 		perror("syn_event");
@@ -168,8 +168,11 @@ static void handle_events(void)
 	for (unsigned b = 0; b < SNES_NR_BUTTONS; b++) {
 		for (unsigned c = 0; c < NR_CONTROLLERS; c++) {
 			if (snes_state_changed(prev_state[c], state[c], b)) {
-				do_event(controller[c].keymap[b],
-					snes_button_pressed(state[c], b));
+				unsigned int btn = controller[c].keymap[b];
+				unsigned int type = (btn == REL_X || btn == REL_Y || btn == REL_WHEEL)
+					? EV_REL : EV_KEY;
+				int value = type == EV_KEY ? snes_button_pressed(state[c], b) : 5;
+				do_event(btn, type, value);
 			}
 		}
 	}

@@ -30,20 +30,20 @@
  * otherwise usnes will fall back to polling them individually.
  */
 static struct controller {
-	unsigned long keymap[SNES_NR_BUTTONS];
+	unsigned int keymap[SNES_NR_BUTTONS];
 	unsigned char clock;
 	unsigned char latch;
 	unsigned char data;
 } controller[] =
 {{
 	.keymap = {
-		[SNES_R] = KEY_R,
-		[SNES_L] = KEY_L,
+		[SNES_R] = KEY_BACK,
+		[SNES_L] = KEY_FORWARD,
 
-		[SNES_A] = KEY_A,
+		[SNES_A] = BTN_RIGHT,
 		[SNES_B] = REL_WHEEL, // scroll down
 		[SNES_X] = REL_WHEEL, // scroll up
-		[SNES_Y] = KEY_Y,
+		[SNES_Y] = BTN_LEFT,
 
 		[SNES_UP]    = REL_Y, // positive
 		[SNES_DOWN]  = REL_Y, // negative
