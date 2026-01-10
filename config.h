@@ -34,11 +34,13 @@ static struct controller {
 	unsigned char clock;
 	unsigned char latch;
 	unsigned char data;
+	int mouse_speed;
+	int scroll_speed;
 } controller[] =
 {{
 	.keymap = {
-		[SNES_R] = KEY_BACK,
-		[SNES_L] = KEY_FORWARD,
+		[SNES_R] = KEY_FORWARD,
+		[SNES_L] = KEY_BACK,
 
 		[SNES_A] = BTN_RIGHT,
 		[SNES_B] = REL_WHEEL, // scroll down
@@ -50,12 +52,14 @@ static struct controller {
 		[SNES_LEFT]  = REL_X, // negative
 		[SNES_RIGHT] = REL_X, // positive
 
-		[SNES_START]  = KEY_ENTER,
-		[SNES_SELECT] = KEY_ESC
+		[SNES_START]  = KEY_LEFTMETA, // Windows key
+		[SNES_SELECT] = BTN_MIDDLE
 	},
 	.clock = 21,
 	.latch = 20,
-	.data  = 16
+	.data  = 16,
+	.mouse_speed = 5,
+	.scroll_speed = 2
 },
 /* e.g. second controller with shared CLOCK and LATCH pins: */
 /*{

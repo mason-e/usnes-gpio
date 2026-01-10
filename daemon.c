@@ -171,7 +171,7 @@ static void handle_events(void)
 				unsigned int btn = controller[c].keymap[b];
 				unsigned int type = (btn == REL_X || btn == REL_Y || btn == REL_WHEEL)
 					? EV_REL : EV_KEY;
-				int value = type == EV_KEY ? snes_button_pressed(state[c], b) : 5;
+				int value = type == EV_KEY ? snes_button_pressed(state[c], b) : (btn == REL_WHEEL ? controller[c].scroll_speed | controller[c].mouse_speed);
 				do_event(btn, type, value);
 			}
 		}
