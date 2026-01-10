@@ -44,6 +44,8 @@ int uinput_init(void)
 		for (unsigned b = 0; b < SNES_NR_BUTTONS; b++) {
 			if (ioctl(fd, UI_SET_KEYBIT, controller[c].keymap[b]) < 0)
 				return -1;
+			if (ioctl(fd, UI_SET_RELBIT, controller[c].keymap[b]) < 0)
+				return -1;
 		}
 	}
 
