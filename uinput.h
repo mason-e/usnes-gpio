@@ -19,7 +19,7 @@
 
 int uinput_init(void);
 int uinput_fini(int fd);
-int uinput_key_event(int fd, unsigned int btn, int value);
+int uinput_key_event(int fd, unsigned int btn, unsigned int type, int value);
 int uinput_syn_event(int fd);
 
 #endif
