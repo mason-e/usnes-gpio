@@ -29,8 +29,15 @@
  * you share CLOCK/LATCH pins, they must be shared between ALL controllers,
  * otherwise usnes will fall back to polling them individually.
  */
+
+// define a tuple struct for the control AND the event type it goes under
+typedef struct {
+	unsigned int control;
+	int event_type;
+} controlmap;
+
 static struct controller {
-	unsigned int keymap[SNES_NR_BUTTONS];
+	controlmap mapping[SNES_NR_BUTTONS];
 	unsigned char clock;
 	unsigned char latch;
 	unsigned char data;
@@ -38,22 +45,22 @@ static struct controller {
 	int scroll_speed;
 } controller[] =
 {{
-	.keymap = {
-		[SNES_R] = KEY_FORWARD,
-		[SNES_L] = KEY_BACK,
+	.mapping = {
+		[SNES_R] = {KEY_FORWARD, 0},
+		[SNES_L] = {KEY_BACK, 0},
 
-		[SNES_A] = BTN_RIGHT,
-		[SNES_B] = REL_WHEEL, // scroll down
-		[SNES_X] = REL_WHEEL, // scroll up
-		[SNES_Y] = BTN_LEFT,
+		[SNES_A] = {BTN_RIGHT, 0},
+		[SNES_B] = {REL_WHEEL, 1}, // negative for scroll down
+		[SNES_X] = {REL_WHEEL, 1}, // positive for scroll up
+		[SNES_Y] = {BTN_LEFT, 0},
 
-		[SNES_UP]    = REL_Y, // positive
-		[SNES_DOWN]  = REL_Y, // negative
-		[SNES_LEFT]  = REL_X, // negative
-		[SNES_RIGHT] = REL_X, // positive
+		[SNES_UP]    = {REL_Y, 1}, // negative for mouse up
+		[SNES_DOWN]  = {REL_Y, 1}, // positive for mouse down
+		[SNES_LEFT]  = {REL_X, 1}, // negative for mouse left
+		[SNES_RIGHT] = {REL_X, 1}, // positive for mouse right
 
-		[SNES_START]  = KEY_LEFTMETA, // Windows key
-		[SNES_SELECT] = BTN_MIDDLE
+		[SNES_START]  = {KEY_LEFTMETA, 0}, // Windows key
+		[SNES_SELECT] = {BTN_MIDDLE, 0}
 	},
 	.clock = 21,
 	.latch = 20,
