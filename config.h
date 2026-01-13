@@ -33,7 +33,8 @@
 // define a tuple struct for the control AND the event type it goes under
 typedef struct {
 	unsigned int control;
-	int event_type;
+	unsigned int event_type;
+	int speed; // this should always be 1 for keys, signed for relatives to indicate direction
 } controlmap;
 
 static struct controller {
@@ -41,32 +42,28 @@ static struct controller {
 	unsigned char clock;
 	unsigned char latch;
 	unsigned char data;
-	int mouse_speed;
-	int scroll_speed;
 } controller[] =
 {{
 	.mapping = {
-		[SNES_R] = {KEY_FORWARD, 0},
-		[SNES_L] = {KEY_BACK, 0},
+		[SNES_R] = {KEY_FORWARD, EV_KEY, 1},
+		[SNES_L] = {KEY_BACK, EV_KEY, 1},
 
-		[SNES_A] = {BTN_RIGHT, 0},
-		[SNES_B] = {REL_WHEEL, 1}, // negative for scroll down
-		[SNES_X] = {REL_WHEEL, 1}, // positive for scroll up
-		[SNES_Y] = {BTN_LEFT, 0},
+		[SNES_A] = {BTN_RIGHT, EV_KEY, 1},
+		[SNES_B] = {REL_WHEEL, EV_REL, -2}, // negative for scroll down
+		[SNES_X] = {REL_WHEEL, EV_REL, 2}, // positive for scroll up
+		[SNES_Y] = {BTN_LEFT, EV_KEY, 1},
 
-		[SNES_UP]    = {REL_Y, 1}, // negative for mouse up
-		[SNES_DOWN]  = {REL_Y, 1}, // positive for mouse down
-		[SNES_LEFT]  = {REL_X, 1}, // negative for mouse left
-		[SNES_RIGHT] = {REL_X, 1}, // positive for mouse right
+		[SNES_UP]    = {REL_Y, EV_REL, -10}, // negative for mouse up
+		[SNES_DOWN]  = {REL_Y, EV_REL, 10}, // positive for mouse down
+		[SNES_LEFT]  = {REL_X, EV_REL, -10}, // negative for mouse left
+		[SNES_RIGHT] = {REL_X, EV_REL, 10}, // positive for mouse right
 
-		[SNES_START]  = {KEY_LEFTMETA, 0}, // Windows key
-		[SNES_SELECT] = {BTN_MIDDLE, 0}
+		[SNES_START]  = {KEY_LEFTMETA, EV_KEY, 1}, // Windows key
+		[SNES_SELECT] = {BTN_MIDDLE, EV_KEY, 1}
 	},
 	.clock = 21,
 	.latch = 20,
-	.data  = 16,
-	.mouse_speed = 5,
-	.scroll_speed = 2
+	.data  = 16
 },
 /* e.g. second controller with shared CLOCK and LATCH pins: */
 /*{

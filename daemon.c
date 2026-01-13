@@ -168,13 +168,8 @@ static void handle_events(void)
 	for (unsigned b = 0; b < SNES_NR_BUTTONS; b++) {
 		for (unsigned c = 0; c < NR_CONTROLLERS; c++) {
 			if (snes_state_changed(prev_state[c], state[c], b)) {
-				unsigned int btn = controller[c].mapping[b].control;
-				unsigned int type = controller[c].mapping[b].event_type == 0 ? EV_KEY : EV_REL;
-				int multiplier = type == EV_REL
-					? (btn == REL_WHEEL ? controller[c].scroll_speed : controller[c].mouse_speed)
-					: 1;
-				int value = multiplier * snes_button_pressed(state[c], b);
-				do_event(btn, type, value);
+				int value = controller[c].mapping[b].speed * snes_button_pressed(state[c], b);
+				do_event(controller[c].mapping[b].control, controller[c].mapping[b].event_type, value);
 			}
 		}
 	}
