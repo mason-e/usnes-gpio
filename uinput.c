@@ -42,7 +42,7 @@ int uinput_init(void)
 
 	for (unsigned c = 0; c < NR_CONTROLLERS; c++) {
 		for (unsigned b = 0; b < SNES_NR_BUTTONS; b++) {
-			if (controller[c].mapping[b].event_type == 0) {
+			if (controller[c].mapping[b].event_type == EV_KEY) {
 				if (ioctl(fd, UI_SET_KEYBIT, controller[c].mapping[b].control) < 0)
 					return -1;
 			}
