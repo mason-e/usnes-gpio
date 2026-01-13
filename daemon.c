@@ -155,10 +155,10 @@ static int init_controllers(void)
 		| (shared_latch ? SNES_SHARED_LATCH : 0);
 }
 
-static void do_event(unsigned int key, unsigned int type, int value)
+static void do_event(unsigned int btn, unsigned int type, int value)
 {
-	if (uinput_key_event(uinput_fd, key, type, value) < 0)
-		perror("key_event");
+	if (uinput_btn_event(uinput_fd, btn, type, value) < 0)
+		perror("btn_event");
 	if (uinput_syn_event(uinput_fd) < 0)
 		perror("syn_event");
 }

@@ -67,22 +67,22 @@ static struct controller {
 },
 /* e.g. second controller with shared CLOCK and LATCH pins: */
 /*{
-	.keymap = {
-		[SNES_R] = KEY_Q,
-		[SNES_L] = KEY_W,
+	.mapping = {
+		[SNES_R] = {KEY_Q, EV_KEY, 1},
+		[SNES_L] = {KEY_W, EV_KEY, 1},
 
-		[SNES_A] = KEY_E,
-		[SNES_B] = KEY_T,
-		[SNES_X] = KEY_U,
-		[SNES_Y] = KEY_I,
+		[SNES_A] = {KEY_E, EV_KEY, 1},
+		[SNES_B] = {KEY_T, EV_KEY, 1},
+		[SNES_X] = {KEY_U, EV_KEY, 1},
+		[SNES_Y] = {KEY_I, EV_KEY, 1},
 
-		[SNES_UP]    = KEY_O,
-		[SNES_DOWN]  = KEY_P,
-		[SNES_LEFT]  = KEY_S,
-		[SNES_RIGHT] = KEY_D,
+		[SNES_UP]    = {KEY_O, EV_KEY, 1},
+		[SNES_DOWN]  = {KEY_P, EV_KEY, 1},
+		[SNES_LEFT]  = {KEY_S, EV_KEY, 1},
+		[SNES_RIGHT] = {KEY_D, EV_KEY, 1},
 
-		[SNES_START]  = KEY_F,
-		[SNES_SELECT] = KEY_G
+		[SNES_START]  = {KEY_F, EV_KEY, 1},
+		[SNES_SELECT] = {KEY_G EV_KEY, 1}
 	},
 	.clock = 21,
 	.latch = 20,

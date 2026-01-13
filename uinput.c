@@ -74,8 +74,8 @@ int uinput_fini(int fd)
 	return ioctl(fd, UI_DEV_DESTROY);
 }
 
-/* Send a key event to the uinput device */
-int uinput_key_event(int fd, unsigned int btn, unsigned int type, int value)
+/* Send a key or relative event to the uinput device */
+int uinput_btn_event(int fd, unsigned int btn, unsigned int type, int value)
 {
 	struct input_event ev;
 	memset(&ev, 0, sizeof(ev));
