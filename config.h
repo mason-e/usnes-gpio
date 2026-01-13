@@ -49,8 +49,8 @@ static struct controller {
 		[SNES_L] = {KEY_BACK, EV_KEY, 1},
 
 		[SNES_A] = {BTN_RIGHT, EV_KEY, 1},
-		[SNES_B] = {REL_WHEEL, EV_REL, -1}, // negative for scroll down
-		[SNES_X] = {REL_WHEEL, EV_REL, 1}, // positive for scroll up
+		[SNES_B] = {REL_WHEEL_HI_RES, EV_REL, -40}, // negative for scroll down
+		[SNES_X] = {REL_WHEEL_HI_RES, EV_REL, 40}, // positive for scroll up
 		[SNES_Y] = {BTN_LEFT, EV_KEY, 1},
 
 		[SNES_UP]    = {REL_Y, EV_REL, -10}, // negative for mouse up
