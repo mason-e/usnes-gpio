@@ -35,13 +35,21 @@ int uinput_init(void)
 
 	if (ioctl(fd, UI_SET_EVBIT, EV_KEY) < 0)
 		return -1;
+	if (ioctl(fd, UI_SET_EVBIT, EV_REL) < 0)
+		return -1;
 	if (ioctl(fd, UI_SET_EVBIT, EV_SYN) < 0)
 		return -1;
 
 	for (unsigned c = 0; c < NR_CONTROLLERS; c++) {
 		for (unsigned b = 0; b < SNES_NR_BUTTONS; b++) {
-			if (ioctl(fd, UI_SET_KEYBIT, controller[c].keymap[b]) < 0)
-				return -1;
+			if (controller[c].mapping[b].event_type == EV_KEY) {
+				if (ioctl(fd, UI_SET_KEYBIT, controller[c].mapping[b].control) < 0)
+					return -1;
+			}
+			else {
+				if (ioctl(fd, UI_SET_RELBIT, controller[c].mapping[b].control) < 0)
+					return -1;
+			}
 		}
 	}
 
@@ -66,12 +74,12 @@ int uinput_fini(int fd)
 	return ioctl(fd, UI_DEV_DESTROY);
 }
 
-/* Send a key event to the uinput device */
-int uinput_key_event(int fd, unsigned int btn, int value)
+/* Send a key or relative event to the uinput device */
+int uinput_btn_event(int fd, unsigned int btn, unsigned int type, int value)
 {
 	struct input_event ev;
 	memset(&ev, 0, sizeof(ev));
-	ev.type = EV_KEY;
+	ev.type = type;
 	ev.code = btn;
 	ev.value = value;
 	return write(fd, &ev, sizeof(ev));

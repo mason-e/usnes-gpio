@@ -29,29 +29,37 @@
  * you share CLOCK/LATCH pins, they must be shared between ALL controllers,
  * otherwise usnes will fall back to polling them individually.
  */
+
+// define a tuple struct for the control AND the event type it goes under
+typedef struct {
+	unsigned int control;
+	unsigned int event_type;
+	int speed; // this should always be 1 for keys, signed for relatives to indicate direction
+} controlmap;
+
 static struct controller {
-	unsigned long keymap[SNES_NR_BUTTONS];
+	controlmap mapping[SNES_NR_BUTTONS];
 	unsigned char clock;
 	unsigned char latch;
 	unsigned char data;
 } controller[] =
 {{
-	.keymap = {
-		[SNES_R] = KEY_R,
-		[SNES_L] = KEY_L,
+	.mapping = {
+		[SNES_R] = {KEY_FORWARD, EV_KEY, 1},
+		[SNES_L] = {KEY_BACK, EV_KEY, 1},
 
-		[SNES_A] = KEY_A,
-		[SNES_B] = KEY_B,
-		[SNES_X] = KEY_X,
-		[SNES_Y] = KEY_Y,
+		[SNES_A] = {BTN_RIGHT, EV_KEY, 1},
+		[SNES_B] = {REL_WHEEL_HI_RES, EV_REL, -40}, // negative for scroll down
+		[SNES_X] = {REL_WHEEL_HI_RES, EV_REL, 40}, // positive for scroll up
+		[SNES_Y] = {BTN_LEFT, EV_KEY, 1},
 
-		[SNES_UP]    = KEY_UP,
-		[SNES_DOWN]  = KEY_DOWN,
-		[SNES_LEFT]  = KEY_LEFT,
-		[SNES_RIGHT] = KEY_RIGHT,
+		[SNES_UP]    = {REL_Y, EV_REL, -10}, // negative for mouse up
+		[SNES_DOWN]  = {REL_Y, EV_REL, 10}, // positive for mouse down
+		[SNES_LEFT]  = {REL_X, EV_REL, -10}, // negative for mouse left
+		[SNES_RIGHT] = {REL_X, EV_REL, 10}, // positive for mouse right
 
-		[SNES_START]  = KEY_ENTER,
-		[SNES_SELECT] = KEY_ESC
+		[SNES_START]  = {KEY_LEFTMETA, EV_KEY, 1}, // Windows key
+		[SNES_SELECT] = {BTN_MIDDLE, EV_KEY, 1}
 	},
 	.clock = 21,
 	.latch = 20,
@@ -59,22 +67,22 @@ static struct controller {
 },
 /* e.g. second controller with shared CLOCK and LATCH pins: */
 /*{
-	.keymap = {
-		[SNES_R] = KEY_Q,
-		[SNES_L] = KEY_W,
+	.mapping = {
+		[SNES_R] = {KEY_Q, EV_KEY, 1},
+		[SNES_L] = {KEY_W, EV_KEY, 1},
 
-		[SNES_A] = KEY_E,
-		[SNES_B] = KEY_T,
-		[SNES_X] = KEY_U,
-		[SNES_Y] = KEY_I,
+		[SNES_A] = {KEY_E, EV_KEY, 1},
+		[SNES_B] = {KEY_T, EV_KEY, 1},
+		[SNES_X] = {KEY_U, EV_KEY, 1},
+		[SNES_Y] = {KEY_I, EV_KEY, 1},
 
-		[SNES_UP]    = KEY_O,
-		[SNES_DOWN]  = KEY_P,
-		[SNES_LEFT]  = KEY_S,
-		[SNES_RIGHT] = KEY_D,
+		[SNES_UP]    = {KEY_O, EV_KEY, 1},
+		[SNES_DOWN]  = {KEY_P, EV_KEY, 1},
+		[SNES_LEFT]  = {KEY_S, EV_KEY, 1},
+		[SNES_RIGHT] = {KEY_D, EV_KEY, 1},
 
-		[SNES_START]  = KEY_F,
-		[SNES_SELECT] = KEY_G
+		[SNES_START]  = {KEY_F, EV_KEY, 1},
+		[SNES_SELECT] = {KEY_G EV_KEY, 1}
 	},
 	.clock = 21,
 	.latch = 20,
